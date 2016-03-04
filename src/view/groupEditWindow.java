@@ -19,13 +19,23 @@ public class groupEditWindow {
     private JButton buttonAdd;
     public JPanel panelGroupEdit;
     private JButton buttonCansel;
+    private JRadioButton radioM;
+    private JRadioButton radioZ;
 
     public groupEditWindow(biatlonWindow w,JFrame fr) {
         bW = w;
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(radioM);
+        buttonGroup.add(radioZ);
+
         buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JGroup gr = new JGroup(textField1.getText(),Integer.valueOf(textField2.getText()),Integer.valueOf(textField3.getText()));
+                boolean b = false;
+                if(radioM.isSelected()) b=true;
+                else b=false;
+                JGroup gr = new JGroup(textField1.getText(),Integer.valueOf(textField2.getText()),Integer.valueOf(textField3.getText()),b);
                 bW.addGroup(gr);
                 biatlonWindow.localFrame.setVisible(true);
                 fr.dispose();

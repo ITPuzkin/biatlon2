@@ -1,6 +1,9 @@
 package view;
 
 import com.alee.laf.WebLookAndFeel;
+import com.alee.laf.button.WebButton;
+import com.alee.laf.button.WebButtonStyle;
+import com.alee.laf.table.WebTable;
 import model.JGroup;
 import model.JPerson;
 import model.JTableModel;
@@ -10,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -25,6 +29,9 @@ public class biatlonWindow {
     private JButton buttonRedactor;
     private JButton buttonAdd;
     private JPanel panelWindow;
+    private JRadioButton radioM;
+    private JRadioButton radioZ;
+    private JLabel curCount;
 
     public biatlonWindow local;
     public static JFrame localFrame;
@@ -49,12 +56,18 @@ public class biatlonWindow {
         local = this;
         groups = new HashMap<>();
         particiants = new HashMap<>();
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(radioM);
+        buttonGroup.add(radioZ);
+
         buttonRedactor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new JFrame("groupWindow");
+                frame.setBounds(localFrame.getBounds());
                 frame.setContentPane(new groupEditWindow(local,frame).panelGroupEdit);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
                 localFrame.setVisible(false);
@@ -76,13 +89,20 @@ public class biatlonWindow {
                           String surName,
                           String town,
                           int number){
-        JPerson p = new JPerson(name,surName,town,year,number);
+        boolean b = false;
+        if(radioM.isSelected()) b=true;
+        else b=false;
+        JPerson p = new JPerson(name,surName,town,year,number,b);
         boolean flag = false;
         for(Map.Entry<String,JGroup> entry : groups.entrySet()){
+
             if(p.getpYear() >= entry.getValue().getlYear() && p.getpYear() <= entry.getValue().gethYear()){
-                p.setpGroup(entry.getValue());
-                flag = true;
-                break;
+                if(entry.getValue().isMale() == p.isMale()) {
+                    p.setpGroup(entry.getValue());
+                    flag = true;
+                    break;
+                }
+                else continue;
             }
         }
         if(!flag){
@@ -121,8 +141,10 @@ public class biatlonWindow {
         JTableModel model = new JTableModel(n,params);
         tmodels.put(n,model);
 
+        //WebTable table = new WebTable(model);
         JTable table = new JTable(model);
         table.setAutoCreateRowSorter(true);
+
 
         JScrollPane sPane = new JScrollPane(table);
         sPane.setSize(panel.getSize());

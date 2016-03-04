@@ -8,6 +8,15 @@ public class JGroup {
     private String gName;
     private int lYear;
     private int hYear;
+    private boolean isMale;
+
+    public boolean isMale() {
+        return isMale;
+    }
+
+    public void setMale(boolean male) {
+        isMale = male;
+    }
 
     public String getgName() {
         return gName;
@@ -33,11 +42,11 @@ public class JGroup {
         this.hYear = hYear;
     }
 
-    public JGroup(String n, int l, int h){
+    public JGroup(String n, int l, int h, boolean y){
         gName = n;
         lYear = l;
         hYear = h;
-
+        isMale = y;
     }
 
 }

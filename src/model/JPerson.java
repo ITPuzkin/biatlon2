@@ -11,17 +11,28 @@ public class JPerson {
     private int pYear;
     private int pNumber;
 
+    public boolean isMale() {
+        return isMale;
+    }
+
+    public void setMale(boolean male) {
+        isMale = male;
+    }
+
+    private boolean isMale;
+
     private JGroup pGroup;
     private int pHour;
     private int pMinute;
     private int pSeconds;
 
-    public JPerson(String n, String s, String t,int y, int num){
+    public JPerson(String n, String s, String t,int y, int num,boolean male){
         pName = n;
         pSurName = s;
         pTown = t;
         pYear = y;
         pNumber = num;
+        isMale = male;
     }
 
     public JGroup getpGroup() {
